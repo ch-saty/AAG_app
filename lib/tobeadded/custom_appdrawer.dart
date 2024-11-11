@@ -1,8 +1,14 @@
-import 'package:AAG/GameScreen/gamescreen.dart';
-import 'package:AAG/GameScreen/subscriptionscreen.dart';
+import 'package:AAG/Account_Screen/account_screen.dart';
+import 'package:AAG/ActiveSession_Screen/activesession_screen.dart';
+import 'package:AAG/PublishGameScreen/gamescreen.dart';
+import 'package:AAG/PublishGameScreen/subscriptionscreen.dart';
 import 'package:AAG/LeagueScreen/scheduledevents_screen.dart';
 import 'package:AAG/Pages/leaderboardpage.dart';
 import 'package:AAG/Pages/loginsignup.dart';
+import 'package:AAG/Pages/transaction_page.dart';
+import 'package:AAG/Refer%20and%20Earn/referandearnscreen.dart';
+import 'package:AAG/SettingPage/settingspage.dart';
+import 'package:AAG/tobeadded/underdevelopment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -80,7 +86,7 @@ class CustomDrawer extends StatelessWidget {
                       child: Column(
                         children: [
                           Expanded(
-                            flex: 2,
+                            flex: 1,
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -152,7 +158,12 @@ class CustomDrawer extends StatelessWidget {
                                   _buildAnimatedListTile(
                                       icon: 'lib/images/active.png',
                                       title: 'Active Sessions',
-                                      onTap: () => {}),
+                                      onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ActiveSessionsScreen()),
+                                          )),
                                   _buildAnimatedListTile(
                                       icon: 'lib/images/sg.png',
                                       title: 'Scheduled Games',
@@ -163,41 +174,74 @@ class CustomDrawer extends StatelessWidget {
                                                     const ScheduledEventsScreen()),
                                           )),
                                   _buildAnimatedListTile(
-                                    icon: 'lib/images/invoice.png',
-                                    title: 'Transactions',
-                                    onTap: () => _navigateToPage(
-                                        context, 'Payment Request'),
-                                  ),
+                                      icon: 'lib/images/invoice.png',
+                                      title: 'Transactions',
+                                      onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const InvoiceHistoryScreen()),
+                                          )),
                                   _buildAnimatedListTile(
-                                    icon: 'lib/images/account.png',
-                                    title: 'Account',
-                                    onTap: () =>
-                                        _navigateToPage(context, 'T&C'),
-                                  ),
+                                      icon: 'lib/images/account.png',
+                                      title: 'Refer & Earn',
+                                      onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ReferAndEarnScreen()),
+                                          )),
                                   _buildAnimatedListTile(
-                                    icon: 'lib/images/settings.png',
-                                    title: 'Settings',
-                                    onTap: () => _navigateToPage(
-                                        context, 'Vendor Policy'),
-                                  ),
+                                      icon: 'lib/images/account.png',
+                                      title: 'Account',
+                                      onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const AccountScreen()),
+                                          )),
+                                  _buildAnimatedListTile(
+                                      icon: 'lib/images/settings.png',
+                                      title: 'Settings',
+                                      onTap: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SettingsPage()),
+                                          )),
                                   _buildAnimatedListTile(
                                     icon: 'lib/images/tc.png',
                                     title: 'Terms & Conditions',
-                                    onTap: () => _navigateToPage(
-                                        context, 'Games Commission'),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => const CustomPopup(
+                                            title: 'Terms & Conditions'),
+                                      );
+                                    },
                                   ),
                                   _buildAnimatedListTile(
                                     icon: 'lib/images/policy.png',
-                                    title: 'Policy',
-                                    onTap: () => _navigateToPage(
-                                        context, 'Analytics / Statics'),
+                                    title: 'Privacy and Policy',
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => const CustomPopup(
+                                            title: 'Privacy and Policy'),
+                                      );
+                                    },
                                   ),
                                   Divider(color: Colors.white.withOpacity(0.2)),
                                   _buildAnimatedListTile(
                                     icon: Icons.help_outline,
                                     title: 'Help / Support',
-                                    onTap: () => _navigateToPage(
-                                        context, 'Help / Support'),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => const CustomPopup(
+                                            title: 'Help & Support'),
+                                      );
+                                    },
                                     iconColor: Colors.white,
                                   ),
                                   _buildAnimatedListTile(
@@ -225,7 +269,7 @@ class CustomDrawer extends StatelessWidget {
                     ),
                     Positioned(
                       top: MediaQuery.of(context).size.height *
-                          0.25, // Adjusted position
+                          0.10, // Adjusted position
                       left: 0,
                       right: 0,
                       child: Padding(

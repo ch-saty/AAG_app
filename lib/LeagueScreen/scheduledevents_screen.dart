@@ -1,4 +1,4 @@
-import 'package:AAG/GameScreen/schedulegamescreen_2.dart';
+import 'package:AAG/PublishGameScreen/schedulegamescreen_2.dart';
 import 'package:flutter/material.dart';
 
 class ScheduledEventsScreen extends StatefulWidget {
@@ -277,7 +277,8 @@ class _ScheduledEventsScreenState extends State<ScheduledEventsScreen>
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.orange, width: 1),
+        border: Border.all(
+            color: const Color.fromARGB(255, 233, 116, 17), width: 1),
       ),
       child: ListTile(
         title: const Text(
@@ -294,7 +295,7 @@ class _ScheduledEventsScreenState extends State<ScheduledEventsScreen>
             const SizedBox(width: 8),
             Text(
               'View  ',
-              style: TextStyle(color: Colors.orange),
+              style: TextStyle(color: const Color.fromARGB(255, 233, 116, 17)),
             ),
             GestureDetector(
               onTap: () {
@@ -307,7 +308,7 @@ class _ScheduledEventsScreenState extends State<ScheduledEventsScreen>
               },
               child: const Icon(
                 Icons.remove_red_eye,
-                color: Colors.orange,
+                color: Color.fromARGB(255, 233, 116, 17),
               ),
             ),
           ],

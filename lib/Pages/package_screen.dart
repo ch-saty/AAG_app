@@ -9,7 +9,9 @@ import 'package:AAG/Pages/otp_veri.dart';
 import 'package:AAG/tobeadded/rivebutton.dart';
 
 class PackageScreen extends StatelessWidget {
-  const PackageScreen({super.key});
+  const PackageScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +178,7 @@ class PackageScreen extends StatelessWidget {
       Color gradientColor1, Color gradientColor2) {
     showDialog(
       context: context,
-      barrierDismissible: false,
+      // barrierDismissible: false,
       builder: (BuildContext context) {
         return TweenAnimationBuilder(
           duration: const Duration(milliseconds: 300),

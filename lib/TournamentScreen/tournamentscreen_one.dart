@@ -4,8 +4,8 @@ import 'dart:math';
 
 import 'package:AAG/TournamentScreen/tournament_configured.dart';
 import 'package:flutter/material.dart';
-import 'package:AAG/GameScreen/publishgamescreen.dart';
-import 'package:AAG/GameScreen/scheduledgamescreen.dart';
+import 'package:AAG/PublishGameScreen/publishgamescreen.dart';
+import 'package:AAG/PublishGameScreen/scheduledgamescreen.dart';
 import 'package:AAG/tobeadded/gradient_button.dart';
 import 'package:intl/intl.dart';
 
@@ -24,6 +24,7 @@ class TournamentscreenState extends State<Tournamentscreen>
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   String? scheduledInfo;
+  late int selectedFee;
   late AnimationController _gradientAnimationController;
   late Animation<double> _gradientAnimation;
   late Animation<double> _rotationAnimation;
@@ -454,6 +455,7 @@ class TournamentscreenState extends State<Tournamentscreen>
                       onTap: () {
                         setState(() {
                           selectedFeeIndex = index;
+                          selectedFee = fees[index];
                         });
                       },
                       child: Container(
@@ -536,19 +538,19 @@ class TournamentscreenState extends State<Tournamentscreen>
   Widget _buildParticipantsView() {
     final participantCounts = [8, 16, 32, 64, 128, 256, 512, 1024];
 
-    final prizePool = [800, 1600, 3200, 6400, 12800, 25600, 51200, 102400];
-
     return LayoutBuilder(
       builder: (context, constraints) {
         return Column(
           children: [
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(5),
                 itemCount: participantCounts.length,
                 itemBuilder: (context, index) {
+                  final totalPool = selectedFee;
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),
+                    height: 100, // Fixed height for the container
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: Colors.deepPurple, width: 1),
@@ -559,77 +561,67 @@ class TournamentscreenState extends State<Tournamentscreen>
                         ],
                       ),
                     ),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      leading: Image.asset(
-                        'lib/images/ludo.webp', // Make sure you have this image
-                        width: 60,
-                        height: 50,
-                      ),
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.group,
-                                    color: Colors.white, size: 20),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '${participantCounts[index]}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Leading image
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'lib/images/g1.png',
+                              height:
+                                  84, // Matches container height minus padding
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 4),
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Colors.orange, Colors.deepOrange],
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Row(
-                                  children: const [
-                                    Icon(Icons.emoji_events,
-                                        color: Colors.white, size: 16),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      '₹21920',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                        ),
+
+                        // Player count section
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'lib/images/playerg.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            Text(
+                              '${participantCounts[index]}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                              const SizedBox(height: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 4),
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Colors.orange, Colors.deepOrange],
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
+                            ),
+                          ],
+                        ),
+
+                        // Pool fee section
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Container(
+                              width: 70,
+                              height:
+                                  40, // Added height to ensure it's easier to center vertically
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Colors.orange, Colors.deepOrange],
                                 ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Center(
+                                // This ensures that the text is centered
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.currency_rupee,
-                                        color: Colors.white, size: 16),
+                                    const Icon(
+                                      Icons.currency_rupee,
+                                      color: Colors.white,
+                                      size: 14,
+                                    ),
                                     Text(
-                                      '${prizePool[index]}',
+                                      '$totalPool',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -638,10 +630,10 @@ class TournamentscreenState extends State<Tournamentscreen>
                                   ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   );
                 },
@@ -652,7 +644,6 @@ class TournamentscreenState extends State<Tournamentscreen>
               child: Center(
                 child: CustomButton(
                   onTap: () {
-                    // Handle next button tap
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -672,50 +663,50 @@ class TournamentscreenState extends State<Tournamentscreen>
   }
 }
 
-class CustomButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final String text;
+// class CustomButton extends StatelessWidget {
+//   final VoidCallback onTap;
+//   final String text;
 
-  const CustomButton({
-    super.key,
-    required this.onTap,
-    required this.text,
-  });
+//   const CustomButton({
+//     super.key,
+//     required this.onTap,
+//     required this.text,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Colors.purple, Colors.deepPurple],
-          ),
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.purple.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: onTap,
+//       child: Container(
+//         padding: const EdgeInsets.symmetric(vertical: 12),
+//         decoration: BoxDecoration(
+//           gradient: const LinearGradient(
+//             colors: [Colors.purple, Colors.deepPurple],
+//           ),
+//           borderRadius: BorderRadius.circular(8),
+//           boxShadow: [
+//             BoxShadow(
+//               color: Colors.purple.withOpacity(0.3),
+//               spreadRadius: 1,
+//               blurRadius: 4,
+//               offset: const Offset(0, 2),
+//             ),
+//           ],
+//         ),
+//         child: Center(
+//           child: Text(
+//             text,
+//             style: const TextStyle(
+//               color: Colors.white,
+//               fontSize: 16,
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class ComplexGradientPainter extends CustomPainter {
   final Animation<double> animation;

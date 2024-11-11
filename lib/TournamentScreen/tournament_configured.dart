@@ -1,5 +1,8 @@
-import 'package:AAG/GameScreen/publishgamescreen.dart';
-import 'package:AAG/GameScreen/schedulegamescreen_2.dart';
+import 'dart:math';
+
+import 'package:AAG/TournamentScreen/publishedtournamentscreen.dart';
+import 'package:AAG/TournamentScreen/scheduletournamentscreen_2.dart';
+import 'package:AAG/tobeadded/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -144,7 +147,7 @@ class _TournamentConfiguredScreenState extends State<TournamentConfiguredScreen>
                 ),
                 const SizedBox(height: 24),
                 const Text(
-                  'Your Tournament has\nbeen Configured',
+                  'Your Tournament has\n  been Configured',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.orange,
@@ -157,19 +160,20 @@ class _TournamentConfiguredScreenState extends State<TournamentConfiguredScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomButton(
-                      text: 'Publish Tournament',
+                      text: 'Publish',
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const GamePublishedScreen(),
+                            builder: (context) =>
+                                const TournamentPublishedScreen(),
                           ),
                         );
                       },
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 20),
                     CustomButton(
-                      text: 'Schedule Tournament',
+                      text: 'Schedule',
                       onTap: () => _showSchedulePopup(),
                     ),
                   ],
@@ -326,7 +330,7 @@ class _TournamentConfiguredScreenState extends State<TournamentConfiguredScreen>
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const EditableScheduledGameScreen(),
+                                        const EditableScheduledTournamentScreen(),
                                   ),
                                 );
                               }
@@ -411,65 +415,60 @@ class ComplexGradientPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment(animation.value, 0),
-        end: Alignment(-animation.value, 0),
-        colors: [
-          colorAnimation1.value ?? Colors.transparent,
-          colorAnimation2.value ?? Colors.transparent,
-        ],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
+    final Rect rect = Offset.zero & size;
+    final center = Offset(size.width / 2, size.height / 2);
 
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
+    // Create multiple gradient layers
+    for (int i = 0; i < 3; i++) {
+      final double phase = animation.value + (i * 3.14159 / 3);
+      final double scale = scaleAnimation.value + (i * 0.02);
+
+      final Gradient gradient = RadialGradient(
+        center: Alignment(
+          cos(phase) * 0.5,
+          sin(phase) * 0.5,
+        ),
+        colors: [
+          colorAnimation1.value ?? Colors.purple[900]!,
+          colorAnimation2.value ?? Colors.deepPurple[700]!,
+          Colors.purple[500]!.withOpacity(0.5),
+          Colors.deepPurple[900]!.withOpacity(0.8),
+        ],
+        stops: const [0.0, 0.3, 0.6, 1.0],
+        radius: 1.5 * scale,
+      );
+
+      final Paint paint = Paint()
+        ..shader = gradient.createShader(rect)
+        ..blendMode = BlendMode.overlay;
+
+      canvas.save();
+      canvas.translate(center.dx, center.dy);
+      canvas.rotate(rotationAnimation.value * 0.2 * i);
+      canvas.scale(scale);
+      canvas.translate(-center.dx, -center.dy);
+      canvas.drawRect(rect, paint);
+      canvas.restore();
+    }
+
+    // Add metallic shine effect
+    final Paint shinePaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment(cos(animation.value), sin(animation.value)),
+        end: Alignment(
+            cos(animation.value + 3.14159), sin(animation.value + 3.14159)),
+        colors: [
+          Colors.white.withOpacity(0.0),
+          Colors.white.withOpacity(0.2),
+          Colors.white.withOpacity(0.0),
+        ],
+        stops: const [0.0, 0.5, 1.0],
+      ).createShader(rect)
+      ..blendMode = BlendMode.overlay;
+
+    canvas.drawRect(rect, shinePaint);
   }
 
   @override
   bool shouldRepaint(ComplexGradientPainter oldDelegate) => true;
-}
-
-class CustomButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final String text;
-
-  const CustomButton({
-    super.key,
-    required this.onTap,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.purple.shade400,
-              Colors.deepPurple.shade600,
-            ],
-          ),
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.purple.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 }

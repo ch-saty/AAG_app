@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, unused_field
 
-import 'package:AAG/GameScreen/gamescreen.dart';
+import 'package:AAG/ActiveSession_Screen/activesession_screen.dart';
+import 'package:AAG/PublishGameScreen/gamescreen.dart';
 import 'package:AAG/Pages/leaderboardpage.dart';
 import 'package:AAG/Pages/withdraw_button.dart';
 import 'package:AAG/tobeadded/animated_container.dart';
@@ -137,13 +138,13 @@ class _GameHomepageState extends State<GameHomepage>
                             ),
                             GestureDetector(
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         const AppGamesScreen(),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ActiveSessionsScreen(),
+                                  ),
+                                );
                               },
                               child: const Text(
                                 "View All",

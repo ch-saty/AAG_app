@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import, sized_box_for_whitespace
 
+import 'package:AAG/HomeScreen/homescreen_game.dart';
 import 'package:AAG/Pages/login_vendor_2.dart';
 import 'package:AAG/Pages/loginsignup.dart';
 import 'package:AAG/Pages/otp_veri.dart';
@@ -19,8 +20,53 @@ class LoginVendor extends StatefulWidget {
 
 class _LoginVendorState extends State<LoginVendor> {
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final FocusNode _phoneFocusNode = FocusNode();
-  double _initialChildSize = 0.5;
+  double _initialChildSize = 0.50;
+
+  final Map<String, Map<String, String>> countries = {
+    'IN': {'flag': '🇮🇳', 'code': '+91'},
+    'US': {'flag': '🇺🇸', 'code': '+1'},
+    'UK': {'flag': '🇬🇧', 'code': '+44'},
+    'AE': {'flag': '🇦🇪', 'code': '+971'},
+  };
+  String selectedCountry = 'IN';
+  void _showCountryPicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          color: const Color.fromRGBO(22, 13, 37, 1),
+          child: ListView.builder(
+            itemCount: countries.length,
+            itemBuilder: (context, index) {
+              String countryKey = countries.keys.elementAt(index);
+              return ListTile(
+                leading: Text(
+                  countries[countryKey]!['flag']!,
+                  style: const TextStyle(fontSize: 24),
+                ),
+                title: Text(
+                  countryKey,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                trailing: Text(
+                  countries[countryKey]!['code']!,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  setState(() {
+                    selectedCountry = countryKey;
+                  });
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -71,9 +117,6 @@ class _LoginVendorState extends State<LoginVendor> {
           // Background with the PromotionalSlider
           Column(
             children: [
-              // First Expanded widget for the promotional banner (flex 3)
-
-              // First Expanded widget for the promotional banner (flex 3)
               Expanded(
                 flex: 4,
                 child: Container(
@@ -158,12 +201,27 @@ class _LoginVendorState extends State<LoginVendor> {
                               margin: const EdgeInsets.only(bottom: 2),
                               child: Row(
                                 children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    child: const Text(
-                                      '+91 |',
-                                      style: TextStyle(color: Colors.white),
+                                  InkWell(
+                                    onTap: () => _showCountryPicker(context),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            countries[selectedCountry]![
+                                                'flag']!,
+                                            style:
+                                                const TextStyle(fontSize: 20),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            '${countries[selectedCountry]!['code']} |',
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Expanded(
@@ -186,73 +244,92 @@ class _LoginVendorState extends State<LoginVendor> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        // Center(
-                        //   child: Container(
-                        //     width: MediaQuery.of(context).size.width * 0.75,
-                        //     height: 52,
-                        //     decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.circular(15),
-                        //       gradient: const LinearGradient(
-                        //         begin: Alignment.bottomLeft,
-                        //         end: Alignment.bottomRight,
-                        //         colors: [
-                        //           Color.fromRGBO(243, 21, 136, 0.945),
-                        //           Color.fromRGBO(169, 3, 210, 1)
-                        //         ],
-                        //         stops: [0.0, 1.0],
-                        //       ),
-                        //     ),
-                        //     child: Container(
-                        //       decoration: BoxDecoration(
-                        //         color: const Color.fromRGBO(22, 13, 37, 1),
-                        //         borderRadius: BorderRadius.circular(15),
-                        //       ),
-                        //       margin: const EdgeInsets.only(bottom: 2),
-                        //       child: TextField(
-                        //         controller: _passwordController,
-                        //         obscureText: true,
-                        //         style: const TextStyle(color: Colors.white),
-                        //         decoration: const InputDecoration(
-                        //           hintText: 'Enter password',
-                        //           hintStyle: TextStyle(color: Colors.grey),
-                        //           border: InputBorder.none,
-                        //           contentPadding:
-                        //               EdgeInsets.symmetric(horizontal: 15),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // const SizedBox(height: 40),
-
-                        const SizedBox(height: 20),
+                        Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              gradient: const LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color.fromRGBO(243, 21, 136, 0.945),
+                                  Color.fromRGBO(169, 3, 210, 1)
+                                ],
+                                stops: [0.0, 1.0],
+                              ),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(22, 13, 37, 1),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              margin: const EdgeInsets.only(bottom: 2),
+                              child: TextField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                style: const TextStyle(color: Colors.white),
+                                decoration: const InputDecoration(
+                                  hintText: 'Enter password',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: InputBorder.none,
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 15),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 40.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pushReplacement(
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        LoginVendor2(
+                                      phoneNumber: _phoneController.text,
+                                      selectedPlan: widget.selectedPlan,
+                                    ),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      var begin = const Offset(1.0, 0.0);
+                                      var end = Offset.zero;
+                                      var curve = Curves.easeInOut;
+                                      var tween = Tween(begin: begin, end: end)
+                                          .chain(CurveTween(curve: curve));
+                                      var offsetAnimation =
+                                          animation.drive(tween);
+                                      return SlideTransition(
+                                          position: offsetAnimation,
+                                          child: child);
+                                    },
+                                    transitionDuration:
+                                        const Duration(milliseconds: 800),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'LogIn with OTP?',
+                                  style: TextStyle(color: Colors.orange),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 50),
                         Center(
                           child: CustomButton(
                             onTap: () {
-                              // Implement login logic here
                               Navigator.of(context).pushReplacement(
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      LoginVendor2(
-                                    phoneNumber: _phoneController.text,
-                                    selectedPlan: widget.selectedPlan,
-                                  ),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    var begin = const Offset(1.0, 0.0);
-                                    var end = Offset.zero;
-                                    var curve = Curves.easeInOut;
-                                    var tween = Tween(begin: begin, end: end)
-                                        .chain(CurveTween(curve: curve));
-                                    var offsetAnimation =
-                                        animation.drive(tween);
-                                    return SlideTransition(
-                                        position: offsetAnimation,
-                                        child: child);
-                                  },
-                                  transitionDuration:
-                                      const Duration(milliseconds: 800),
+                                      const GameHomepage(),
                                 ),
                               );
                             },
@@ -323,6 +400,88 @@ class _LoginVendorState extends State<LoginVendor> {
               ),
         ],
       ),
+    );
+  }
+}
+
+class CountryCodePicker extends StatefulWidget {
+  final Function(String, String) onSelect; // Callback for code and flag
+
+  const CountryCodePicker({
+    super.key,
+    required this.onSelect,
+  });
+
+  @override
+  State<CountryCodePicker> createState() => _CountryCodePickerState();
+}
+
+class _CountryCodePickerState extends State<CountryCodePicker> {
+  // Map of country codes to their flag emojis
+  final Map<String, Map<String, String>> countries = {
+    'IN': {'flag': '🇮🇳', 'code': '+91'},
+    'US': {'flag': '🇺🇸', 'code': '+1'},
+    'UK': {'flag': '🇬🇧', 'code': '+44'},
+    'AE': {'flag': '🇦🇪', 'code': '+971'},
+  };
+
+  String selectedCountry = 'IN'; // Default to India
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        _showCountryPicker(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              countries[selectedCountry]!['flag']!, // Flag emoji
+              style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(width: 4),
+            Text(
+              '${countries[selectedCountry]!['code']} |',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showCountryPicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return ListView.builder(
+          itemCount: countries.length,
+          itemBuilder: (context, index) {
+            String countryKey = countries.keys.elementAt(index);
+            return ListTile(
+              leading: Text(
+                countries[countryKey]!['flag']!,
+                style: const TextStyle(fontSize: 24),
+              ),
+              title: Text(countryKey),
+              trailing: Text(countries[countryKey]!['code']!),
+              onTap: () {
+                setState(() {
+                  selectedCountry = countryKey;
+                });
+                widget.onSelect(
+                  countries[countryKey]!['code']!,
+                  countries[countryKey]!['flag']!,
+                );
+                Navigator.pop(context);
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

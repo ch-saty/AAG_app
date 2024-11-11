@@ -3,11 +3,13 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:AAG/LeagueScreen/publishedleaguescreen.dart';
+import 'package:AAG/LeagueScreen/scheduledleaguescreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math' as math;
-import 'package:AAG/GameScreen/publishgamescreen.dart';
-import 'package:AAG/GameScreen/scheduledgamescreen.dart';
+import 'package:AAG/PublishGameScreen/publishgamescreen.dart';
+import 'package:AAG/PublishGameScreen/scheduledgamescreen.dart';
 import 'package:AAG/tobeadded/gradient_button.dart';
 import 'package:intl/intl.dart';
 
@@ -360,7 +362,7 @@ class _OpponentSearchScreenState extends State<OpponentSearchScreen>
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const ScheduledGameScreen(),
+                                      const ScheduledLeagueScreen(),
                                 ),
                               );
                             });
@@ -704,6 +706,9 @@ class _OpponentSearchScreenState extends State<OpponentSearchScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const SizedBox(
+                  height: 200,
+                ),
                 if (_challengeAccepted)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -792,9 +797,22 @@ class _OpponentSearchScreenState extends State<OpponentSearchScreen>
                     ],
                   ),
                 ] else if (_challengeAccepted) ...[
-                  Text(
-                    _opponentName!,
-                    style: const TextStyle(color: Colors.white, fontSize: 24),
+                  Column(
+                    children: [
+                      Text(
+                        'Your Challenger',
+                        style:
+                            const TextStyle(color: Colors.orange, fontSize: 24),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        _opponentName!,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 50),
                   Row(
@@ -805,7 +823,7 @@ class _OpponentSearchScreenState extends State<OpponentSearchScreen>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const GamePublishedScreen(),
+                              builder: (_) => const LeaguePublishedScreen(),
                             ),
                           );
                         },

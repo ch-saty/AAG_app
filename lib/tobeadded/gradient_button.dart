@@ -28,8 +28,10 @@ class _CustomButtonState extends State<CustomButton> {
         onTapUp: (_) => setState(() => _isPressed = false),
         onTapCancel: () => setState(() => _isPressed = false),
         child: Container(
-          width: 150,
-          height: 50,
+          constraints: const BoxConstraints(
+            minWidth: 150, // Minimum width
+            minHeight: 50, // Minimum height
+          ),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.deepPurple, width: 2),
             borderRadius: BorderRadius.circular(10),
@@ -48,7 +50,6 @@ class _CustomButtonState extends State<CustomButton> {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
-                // fontFamily: ,
                 color: Colors.white,
               ),
             ),

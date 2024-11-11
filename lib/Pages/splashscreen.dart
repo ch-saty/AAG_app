@@ -1,12 +1,17 @@
 // ignore_for_file: unused_import
 
 import 'dart:async';
-import 'package:AAG/GameScreen/gamescreen.dart';
-import 'package:AAG/GameScreen/gamescreen2.dart';
-import 'package:AAG/GameScreen/publishgamescreen.dart';
-import 'package:AAG/GameScreen/scheduledgamescreen.dart';
-import 'package:AAG/GameScreen/schedulegamescreen_2.dart';
-import 'package:AAG/GameScreen/subscriptionscreen.dart';
+import 'package:AAG/Account_Screen/account_screen.dart';
+import 'package:AAG/ActiveSession_Screen/activesession_screen.dart';
+import 'package:AAG/DailyTaskScreen/dailytaskscreen.dart';
+import 'package:AAG/Notification_Screen/notification_screen.dart';
+import 'package:AAG/Pages/login_vendor.dart';
+import 'package:AAG/PublishGameScreen/gamescreen.dart';
+import 'package:AAG/PublishGameScreen/gamescreen2.dart';
+import 'package:AAG/PublishGameScreen/publishgamescreen.dart';
+import 'package:AAG/PublishGameScreen/scheduledgamescreen.dart';
+import 'package:AAG/PublishGameScreen/schedulegamescreen_2.dart';
+import 'package:AAG/PublishGameScreen/subscriptionscreen.dart';
 import 'package:AAG/HomeScreen/game_home_screen.dart';
 import 'package:AAG/HomeScreen/homescreen_game.dart';
 import 'package:AAG/LeagueScreen/leaguescreen_one.dart';
@@ -16,6 +21,9 @@ import 'package:AAG/Pages/leaderboardpage.dart';
 import 'package:AAG/Pages/otp_veri.dart';
 import 'package:AAG/Pages/package_screen.dart';
 import 'package:AAG/Pages/signup.dart';
+import 'package:AAG/Pages/transaction_page.dart';
+import 'package:AAG/Refer%20and%20Earn/referandearnscreen.dart';
+import 'package:AAG/SettingPage/settingspage.dart';
 import 'package:AAG/TournamentScreen/tournamentscreen_one.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -52,7 +60,7 @@ class _SplashscreenState extends State<Splashscreen>
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              const LoginScreen(),
+              const DailyTaskScreen(),
           // LoginScreen()
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             var begin = const Offset(1.0, 0.0);

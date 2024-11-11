@@ -4,8 +4,8 @@ import 'dart:math';
 
 import 'package:AAG/LeagueScreen/opponentmatchmaking.dart';
 import 'package:flutter/material.dart';
-import 'package:AAG/GameScreen/publishgamescreen.dart';
-import 'package:AAG/GameScreen/scheduledgamescreen.dart';
+import 'package:AAG/PublishGameScreen/publishgamescreen.dart';
+import 'package:AAG/PublishGameScreen/scheduledgamescreen.dart';
 import 'package:AAG/tobeadded/gradient_button.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
